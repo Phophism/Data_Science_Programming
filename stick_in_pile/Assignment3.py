@@ -4,6 +4,8 @@
 ## 640631128
 ## 21/07/2021
 
+from random import * # random library
+
 # Set number of stick in the pile
 def setStick() : 
     stick = 0 # declare variable
