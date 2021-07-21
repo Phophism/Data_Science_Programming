@@ -44,10 +44,10 @@ def setMaxTake():
     return max
       
 
-def takeStick(max) :
+def takeStick(stick,max) :
     ask = '\n' + name + ', how many stick you will take (1 or 2): '     # set menu text
     take = 0
-    while take < 1 :
+    while (take < 1) or ((stick - take) < 0) :
         take = int(input(ask))
         if take > max:  # take more than 2 sticks - No
             print('No! you cannot take more than',max,'sticks!')
@@ -55,15 +55,15 @@ def takeStick(max) :
         elif take < 1:  # or take less than 1 stick - No
             print('No! you cannot take more less than 1 stick!')
             take = 0
+        elif (stick - take) < 0: # or there are not enough stick to take
+            print('Not enough sticks to take. Please try again.')
+            take = 0
         else:        
             return take
     
 # Player take stick    
 def stickCal(stick,take) :
-    if (stick - take) < 0:
-        print('There are no enough sticks to take.')
-        return stick
-    elif stick == take: # take last - end
+    if stick == take: # take last - end
         stick = stick-take
         print(name,'take the last stick') 
         return 0
@@ -84,21 +84,9 @@ is_player_turn = 1      # set player to start first (if 1 then player's turn els
 while stick != 0:  # Game start
     # Player's turn
     if is_player_turn == 1:
-        take = takeStick()
-        # or take more than remaining - No
-        if (stick - take) < 0:
-            print('There are no enough sticks to take.')
-        elif stick == take: # take last - end
-            stick = stick-take
-            print(name,'take the last stick')
-            is_player_turn = 0 # No error condition : swap to smart computer turn
-        else: # take 1 or 2 
-            stick = stick-take
-            if stick > 1:
-                print('There are', stick, 'sticks in the pile.')  # there are
-            elif stick == 1:
-                print('There is', stick, 'stick in the pile.')  # there is
-            is_player_turn = 0          # No error condition : swap to smart computer turn
+        take = takeStick(stick,max)          # input number of stick player want to take
+        stick = stickCal(stick,take)          
+        is_player_turn = 0          # No error condition : swap to smart computer turn
     # end if
     
     # Computer's turn
