@@ -1,56 +1,96 @@
 ## Data Science Programing
-## Assignment 2
+## Assignment 3
 ## Akkapop Prasompon
 ## 640631128
+## 21/07/2021
 
-from random import * # random library
-
-##### Original Setup from assignment 1 ######
-
-stick = 0  # pile
-name = ""  # user
-is_player_turn = 1 # if 1 then player turn
-
-print('---------------------------')
-print('take x stick from pile')
-print('---------------------------')
-
-while stick < 1:
-    stick = int(input('How many stick in the pile : '))     # input stick(s)
-    if stick < 1:                                          # input less than 1 - try again
-        print('Invalid Number. Try Again.')
-
-if stick > 1:
-    print('There are', stick, 'sticks in the pile.')  # there are
-else:
-    print('There is', stick, 'stick in the pile.')  # there is
-
-# if (stick+2)%3==0 :
-#     print("OMAE WA MOU SHINDEIRU") ## You are already dead (whatever you do, you loss)
-
-print()  # \n
-
-name = input('What is yor name : ')  # input name
-
-ask = '\n' + name + ', how many stick you will take (1 or 2): '
-
-while stick != 0:  # Game start
+# Set number of stick in the pile
+def setStick() : 
+    stick = 0 # declare variable
     
-    # Player's turn
-    if is_player_turn == 1:
+    # Input stick 
+    while stick < 1:
+        stick = int(input('How many stick in the pile : '))     # input stick(s)
+        if stick < 1:                                           # check if number of stick not less than 1
+            print('Invalid Number. Try Again.')             
+            
+    # Display number of stick        
+    if stick > 1:
+        print('There are', stick, 'sticks in the pile.')    
+    else:
+        print('There is', stick, 'stick in the pile.')    
+         
+    # return value of stick's number     
+    return stick
+
+def setName() :
+    name = input('What is yor name : ')  # input name
+    return name
+
+# Set number of maximum number of stick that player can take per one turn
+def setMaxTake(): 
+    max = 0 
+    while max < 1:
+        max = int(input("Set maximum stick per turn : "))     # input number
+        if max < 1:                                           # check if the input number not less than 1
+            print('Invalid Number. Try Again.')             
+            
+    # Display maximum number of stick player can take per turn        
+    print('Player can\'t take more than',max,'stick(s) per turn')    
+         
+    # return value 
+    return max
+      
+
+def takeStick(max) :
+    ask = '\n' + name + ', how many stick you will take (1 or 2): '     # set menu text
+    take = 0
+    while take < 1 :
         take = int(input(ask))
-        if take > 2:  # take more than 2 sticks - No
-            print('No! you cannot take more than 2 sticks!')
+        if take > max:  # take more than 2 sticks - No
+            print('No! you cannot take more than',max,'sticks!')
+            take = 0
         elif take < 1:  # or take less than 1 stick - No
             print('No! you cannot take more less than 1 stick!')
+            take = 0
+        else:        
+            return take
+    
+# Player take stick    
+def stickCal(stick,take) :
+    if (stick - take) < 0:
+        print('There are no enough sticks to take.')
+        return stick
+    elif stick == take: # take last - end
+        stick = stick-take
+        print(name,'take the last stick') 
+        return 0
+    else :     
+        stick_left = stick-take
+        if stick > 1:
+            print('There are', stick, 'sticks in the pile.')  # > 1 stick left
+        elif stick == 1:
+            print('There is', stick, 'stick in the pile.')  # 1 stick left
+        return stick_left
+
+# Declare variable
+name = setName()        # set player name
+stick = setStick()      # set number of stick in the pile
+max = setMaxTake()      # set maximum stick taking per turn
+is_player_turn = 1      # set player to start first (if 1 then player's turn else smart computer's turn)
+
+while stick != 0:  # Game start
+    # Player's turn
+    if is_player_turn == 1:
+        take = takeStick()
         # or take more than remaining - No
-        elif (stick - take) < 0:
+        if (stick - take) < 0:
             print('There are no enough sticks to take.')
         elif stick == take: # take last - end
             stick = stick-take
             print(name,'take the last stick')
             is_player_turn = 0 # No error condition : swap to smart computer turn
-        else: # take 1 or 2 - count
+        else: # take 1 or 2 
             stick = stick-take
             if stick > 1:
                 print('There are', stick, 'sticks in the pile.')  # there are
