@@ -42,8 +42,7 @@ def setMaxTake():
 
 
 def takeStick(stick, max):
-    ask = '\n' + name + \
-        ', how many stick you will take (1 or 2): '     # set menu text
+    ask = '\n' + name + ', how many stick you will take (1 to ' + str(max) + ') : '     # set menu text
     take = 0
     while (take < 1) or ((stick - take) < 0):
         take = int(input(ask))
@@ -69,13 +68,27 @@ def stickCal(stick, take):
         return 0
     else:  # take stick
         stick_left = stick-take
-        if (stick-take) > 1:
+        if ((stick-take) > 1):
             print('There are', stick_left , 'sticks in the pile.')  # > 1 stick left
-        elif (stick-take) == 1:
+        elif ((stick-take) == 1):
             print('There is', stick_left , 'stick in the pile.')  # 1 stick left
         return stick_left
 
-
+def comTurn(stick,max) :
+    if stick == 1:
+        print('Smart Computer take the last stick')
+        return 1
+    for i in range(0,max+1,1):
+        if i != max :
+            if ((stick+i) % (max+1) == 0):
+                take = max-i
+                print("\nSmart Computer take :", take )
+                return take
+        elif i == max and stick != 1 :
+            take = randint(1, max)
+            print("\nSmart Computer take :", take )
+            return take
+        
 # Declare variable
 name = setName()        # set player name
 stick = setStick()      # set number of stick in the pile
@@ -103,25 +116,8 @@ while stick != 0:  # Game start
 
     # Computer's turn
     else:
-        # from the fomular above
-        if ((stick+2) % 3 == 0) and stick != 1:  # Always loss. So take whatever
-            # random
-            take = randint(1, 2)
-            stick = stick - take
-            print("\nSmart Computer take :", take , "\nThere are", stick, "sticks in the pile.")
-        elif ((stick+1) % 3 == 0):  # take one to win
-            # take 1
-            stick -= 1
-            print("\nSmart Computer take : 1\nThere are",
-                  stick, "sticks in the pile.")
-        elif (stick % 3 == 0):  # take two to win
-            # take 2
-            stick -= 2
-            print("\nSmart Computer take : 2\nThere are",
-                  stick, "sticks in the pile.")
-        elif stick == 1:  # only 1 stick left
-            stick -= 1
-            print("\nSmart Computer take : 1")
+        take = comTurn(stick,max)
+        stick = stickCal(stick,take)
         is_player_turn = 1
     # end else
 
