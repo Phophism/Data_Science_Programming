@@ -14,60 +14,70 @@ for item in range(0, len(box)):
             print("Try again. Please input positive integer.")
 
 print(box)
+
+# swap function
+# list: list of number (box)
+# i: position n that want to swap
+def swap(list,i) :
+    temp = list[i+1]    
+    list[i+1] = list[i] # then swap j
+    list[i] = temp      # with j+1 
+    return list
+
 def extended_bubble_sort(list):
     for i in range(0, len(box), 1):
         for j in range(0, len(box)-i-1, 1):
-            a = str(list[j]) # get how many digit in element j -> store as a
-            b = str(list[j+1]) # get how many digit in element j+1 -> store as b
-            elm_a = [] # elements in a
-            elm_b = [] # elements in b
+            # Breaking element j and element j+1 into single digit
+            # for example [10],[112] to [1,0],[1,1,2]
+            a = str(list[j]) # turn integer in j to string for count a digit -> let call it "a"
+            b = str(list[j+1]) # turn integer in j+1 to string for count a digit -> let call it "b"
+            elm_a = [] # create list to store elements in a
+            elm_b = [] # create list to store elements in b
             for k in range(0, len(a),1):
-                elm_a.append(a[k]) # separate each digit into list
+                elm_a.append(a[k]) # breaking each digit of j into list
             for k in range(0, len(b),1):
-                elm_b.append(b[k])   
-            print("\n",a," and ", b)    
+                elm_b.append(b[k]) # breaking each digit of j+1 into list
+            
+            # Sometimes j and j+1 having difference length
+            # To prevent an error "index out of range"
+            # I keep duplicating the last element of the shorter one until the number of length is equal to another element
             if len(a) > len(b) :
                 diff = len(a)-len(b)
                 last_b = elm_b[len(b)-1]
                 for k in range(0,diff,1):
-                    elm_b.append(last_b)
-                for k in range(0,len(a),1):
-                    print("left:",elm_a[k]," | right",elm_b[k])
-                    if elm_a[k] < elm_b[k] :
-                        temp = list[j+1]
-                        list[j+1] = list[j]
-                        list[j] = temp
-                        print('break')
-                        print(list)
-                        break
+                    elm_b.append(last_b) # add an element until length is equal to "a"
+                # Condition part (Sorting)     
+                for k in range(0,len(a),1): # comparing a[0]<->b[0] , a[1]<->b[1] , ... , a[n]<->b[n]
+                    if elm_a[k] < elm_b[k] : # if a[x] < b[x]  
+                        temp = list[j+1]    
+                        list[j+1] = list[j] # then swap j
+                        list[j] = temp      # with j+1
+                        break   # and exit loop to next j
             elif len(a) < len(b) :
                 diff = len(b)-len(a)
                 last_a = elm_a[len(a)-1]
                 for k in range(0,diff,1):
                     elm_a.append(last_a)
+                # Condition part (Sorting) 
                 for k in range(0,len(b),1):
-                    print("left:",elm_a[k]," | right",elm_b[k])
                     if elm_a[k] < elm_b[k] :
                         temp = list[j+1]
                         list[j+1] = list[j]
                         list[j] = temp
-                        print('break')
-                        print(list)
                         break
-            elif len(a) == len(b) :
+            elif len(a) == len(b) : # this case number of digits of "a" and "b" are equal. Hence, I don't need to add an element
+                # Condition part (Sorting) 
                 for k in range(0,len(a),1):
-                    print("left:",elm_a[k]," | right",elm_b[k])
                     if elm_a[k] < elm_b[k] :
                         temp = list[j+1]
                         list[j+1] = list[j]
                         list[j] = temp
-                        print('break')
-                        print(list)
                         break
-    return list                        
+    return list     # return result
         
 result = extended_bubble_sort(box)       
 print(result)        
+
 
 # Bubble Sort
     # In sorting condition
