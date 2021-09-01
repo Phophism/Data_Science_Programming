@@ -12,7 +12,7 @@ from scipy.linalg import solve
 # We have 2 equation
 
 # (1) ->  0.5(x1) + 0.2(x2) <= 10 
-# where 0.5,0.2 means volumn of fresh milk using for make vanilla and strawberry ice cream 
+# where 0.5,0.2 means  volumn of fresh milk using for make vanilla and strawberry ice cream 
 # and 10 is total fresh milk per day
 
 # (2) -> x1 + x2 <= 30 
