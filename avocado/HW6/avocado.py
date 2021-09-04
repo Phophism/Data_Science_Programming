@@ -153,6 +153,34 @@ Optional
 
 7) Which month is the best time to sell avocado
 
+"""
+
+total_sale = data[ data['region'] == 'TotalUS'] # filter only totalus
+total_sale.Date = total_sale.Date.str[:-3] # remove day from Date
+total_sale.Date = total_sale.Date.str[5:] # remove year from Date
+
+total_sale.groupby('Date',as_index=False)[['Total Volume']].sum().sort_values(['Total Volume'],ascending=False) # groupby month, sortby total volume
+
+#   Date  Total Volume
+#    02  6.656251e+08
+#    01  6.637632e+08
+#    03  6.146427e+08
+#    05  5.552051e+08
+#    07  4.918025e+08
+#    04  4.677807e+08
+#    06  4.543907e+08
+#    08  4.263096e+08
+#    12  4.099263e+08
+#    10  3.877041e+08
+#    09  3.685976e+08
+#    11  3.589926e+08
+
+# Answer 7.
+# As the result, the best time to sell avocado in US is first 2-3 month of the year
+
+"""
+Optional
+
 8)  Baseon the data in 2015, is it true that the region which higher population can sell more avocados?
 
 """
